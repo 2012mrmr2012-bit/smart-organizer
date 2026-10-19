@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مرتّب الملفات - تحميل</title>
+<meta name="description" content="برنامج ويندوز بيقرا محتوى ملفاتك ويقترح ترتيبها وتسميتها. مجاني، بيشتغل على جهازك، ومبيحذفش أي ملف.">
+<style>
+:root {
+  --bg: #ffffff; --alt: #f5f6f8; --text: #1b1f27; --muted: #5d6676;
+  --line: #dfe3ea; --accent: #0b63ce; --accent-text: #ffffff; --accent-hover: #0a54ad;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14171c; --alt: #1b1f26; --text: #e6e9ef; --muted: #98a1b0;
+    --line: #2b313b; --accent: #4a9bff; --accent-text: #0b1220; --accent-hover: #6cb0ff;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 16px;
+  font-family: "Segoe UI", "Cairo", "Noto Sans Arabic", Tahoma, sans-serif;
+}
+a { color: var(--accent); }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+header { border-bottom: 1px solid var(--line); }
+header .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); text-decoration: none; }
+.brand img { width: 28px; height: 28px; }
+nav a { margin-inline-start: 22px; color: var(--muted); text-decoration: none; font-size: 15px; }
+nav a:hover { color: var(--text); }
+.hero { padding: 64px 0 40px; }
+.hero h1 { font-size: 38px; line-height: 1.35; margin: 0 0 14px; max-width: 640px; }
+.hero p.lead { font-size: 18px; color: var(--muted); max-width: 620px; margin: 0 0 28px; }
+.btns { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-block; padding: 12px 24px; border-radius: 6px; font-weight: 600; text-decoration: none;
+  border: 1px solid var(--accent); background: var(--accent); color: var(--accent-text); font-size: 16px;
+}
+.btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn.secondary { background: transparent; color: var(--accent); }
+.btn.secondary:hover { background: var(--alt); }
+.meta { margin-top: 14px; font-size: 14px; color: var(--muted); }
+.shot { margin: 40px 0 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--alt); }
+.shot img { display: block; width: 100%; height: auto; }
+section { padding: 52px 0; border-top: 1px solid var(--line); }
+section.alt { background: var(--alt); }
+h2 { font-size: 26px; margin: 0 0 22px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 26px 32px; }
+.grid h3 { margin: 0 0 4px; font-size: 17px; }
+.grid p { margin: 0; color: var(--muted); font-size: 15px; }
+ol.steps { margin: 0; padding-inline-start: 22px; }
+ol.steps li { margin-bottom: 10px; }
+table { width: 100%; border-collapse: collapse; background: var(--bg); border: 1px solid var(--line); }
+th, td { text-align: start; padding: 14px 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { background: var(--alt); font-size: 14px; color: var(--muted); }
+tr:last-child td { border-bottom: none; }
+td small { color: var(--muted); display: block; }
+.note { margin-top: 16px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; color: var(--muted); background: var(--bg); }
+details { border-bottom: 1px solid var(--line); padding: 14px 0; }
+summary { cursor: pointer; font-weight: 600; }
+details p { margin: 10px 0 0; color: var(--muted); }
+footer { border-top: 1px solid var(--line); padding: 26px 0; color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+@media (max-width: 600px) {
+  .hero h1 { font-size: 28px; }
+  nav a { margin-inline-start: 14px; }
+  th:nth-child(2), td:nth-child(2) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#"><img src="icon.png" alt="" onerror="this.style.display='none'"><span>مرتّب الملفات</span></a>
+    <nav>
+      <a href="#features">المميزات</a>
+      <a href="#download">التحميل</a>
+      <a href="#faq">أسئلة</a>
+      <a data-repo-link href="#">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <h1>رتّب ملفاتك حسب محتواها، مش حسب امتدادها</h1>
+    <p class="lead">برنامج لويندوز بيقرا الفواتير والعقود والمستندات، ويقترح اسم واضح ومكان مناسب لكل ملف. بتراجع الاقتراحات الأول، وبعدين تنفّذ. وأي عملية تقدر ترجع عنها.</p>
+    <div class="btns">
+      <a class="btn" data-asset="SmartOrganizer_Setup.exe" href="#download">تحميل المثبّت (Setup)</a>
+      <a class="btn secondary" data-asset="SmartOrganizer_Portable.zip" href="#download">تحميل النسخة المحمولة</a>
+    </div>
+    <div class="meta">ويندوز 10 و11 &nbsp;·&nbsp; مجاني &nbsp;·&nbsp; <span id="ver">أحدث إصدار</span></div>
+    <div class="shot"><img src="screenshot.png" alt="لقطة من البرنامج" onerror="this.parentNode.style.display='none'"></div>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>المميزات</h2>
+      <div class="grid">
+        <div><h3>بيفهم المحتوى</h3><p>بيقرا ملفات PDF وWord والنصوص، ويفرّق بين فاتورة وعقد وسيرة ذاتية وشهادة وملف دراسة، بالعربي والإنجليزي.</p></div>
+        <div><h3>معاينة قبل التنفيذ</h3><p>كل اقتراح بيظهر في جدول فيه الاسم الجديد والمكان والسبب. تقدر تستثني أي ملف قبل ما ينقل حاجة.</p></div>
+        <div><h3>تراجع في أي وقت</h3><p>كل عملية بتتسجل، وبضغطة واحدة ترجّع الملفات لأماكنها الأصلية.</p></div>
+        <div><h3>آمن على ملفاتك</h3><p>مبيحذفش ولا يكتب فوق أي ملف. بس بينقل ويعيد التسمية.</p></div>
+        <div><h3>بيشتغل على جهازك</h3><p>مفيش ملف بيترفع على الإنترنت. القراءة والتصنيف كله محلي.</p></div>
+        <div><h3>نسخة محمولة</h3><p>فك الضغط وشغّل من أي مكان، حتى من فلاشة، من غير تثبيت.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <h2>طريقة الاستخدام</h2>
+      <ol class="steps">
+        <li>اختار فولدر (مثلاً Downloads) أو اسحبه على نافذة البرنامج.</li>
+        <li>اضغط «فحص» وراجع الاقتراحات في الجدول.</li>
+        <li>شيل العلامة من أي ملف مش عايز تنقله.</li>
+        <li>اضغط «تنفيذ الترتيب». ولو مش عاجبك النتيجة: «تراجع».</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="download">
+    <div class="wrap">
+      <h2>التحميل</h2>
+      <table>
+        <thead><tr><th>الملف</th><th>الوصف</th><th></th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>المثبّت</strong><small>SmartOrganizer_Setup.exe <span data-size="SmartOrganizer_Setup.exe"></span></small></td>
+            <td>تثبيت عادي مع اختصار على سطح المكتب وأمر إزالة.</td>
+            <td><a class="btn" data-asset="SmartOrganizer_Setup.exe" href="#">تحميل</a></td>
+          </tr>
+          <tr>
+            <td><strong>نسخة محمولة</strong><small>SmartOrganizer_Portable.zip <span data-size="SmartOrganizer_Portable.zip"></span></small></td>
+            <td>فك الضغط وشغّل SmartOrganizer.exe. الإعدادات بتتحفظ جنب البرنامج.</td>
+            <td><a class="btn secondary" data-asset="SmartOrganizer_Portable.zip" href="#">تحميل</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="note">لما تشغّل البرنامج أول مرة، ممكن ويندوز يعرض تحذير SmartScreen لأن البرنامج مش موقّع رقميًا. اضغط <strong>More info</strong> ثم <strong>Run anyway</strong>. الكود مفتوح المصدر وتقدر تراجعه على GitHub.</div>
+    </div>
+  </section>
+
+  <section id="faq" class="alt">
+    <div class="wrap">
+      <h2>أسئلة شائعة</h2>
+      <details><summary>هل البرنامج بيحذف ملفات؟</summary><p>لأ. البرنامج بينقل الملفات ويغيّر أسماءها بس، ومبيحذفش ولا يكتب فوق أي ملف. وكل عملية متسجلة وتقدر تتراجع عنها.</p></details>
+      <details><summary>هل ملفاتي بتترفع على الإنترنت؟</summary><p>لأ. كل القراءة والتصنيف بتحصل على جهازك.</p></details>
+      <details><summary>إزاي أتراجع عن ترتيب عملته؟</summary><p>من قايمة «إجراءات» اختار «تراجع»، أو افتح «السجل» لو عايز تشوف العمليات اللي حصلت.</p></details>
+      <details><summary>ليه الـ PDF بتاعي اتصنّف حسب النوع بس؟</summary><p>غالبًا ملف ممسوح ضوئيًا (صورة جواه مفيش نص). قراءة الصور بالـ OCR لسه مش مدعومة في النسخة دي.</p></details>
+      <details><summary>بيشتغل على ماك أو لينكس؟</summary><p>الإصدارات الجاهزة لويندوز بس. الكود نفسه بايثون وممكن تشغّله من المصدر على أنظمة تانية.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>مرتّب الملفات</span>
+    <span><a data-repo-link href="#">الكود على GitHub</a> &nbsp;·&nbsp; <a data-repo-link data-path="/issues" href="#">الإبلاغ عن مشكلة</a></span>
+  </div>
+</footer>
+
+<script>
+// غيّر السطر ده باسم حسابك واسم الريبو
+const REPO = "2012mrmr2012-bit/smart-organizer";
+
+const base = "https://github.com/" + REPO;
+document.querySelectorAll("[data-repo-link]").forEach(function (a) {
+  a.href = base + (a.dataset.path || "");
+});
+document.querySelectorAll("[data-asset]").forEach(function (a) {
+  a.href = base + "/releases/latest/download/" + a.dataset.asset;
+});
+
+// عرض رقم الإصدار وأحجام الملفات من أحدث Release (لو فشل الطلب الصفحة تفضل شغالة)
+fetch("https://api.github.com/repos/" + REPO + "/releases/latest")
+  .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+  .then(function (rel) {
+    var v = document.getElementById("ver");
+    if (rel.tag_name) v.textContent = "الإصدار " + rel.tag_name;
+    (rel.assets || []).forEach(function (a) {
+      var el = document.querySelector('[data-size="' + a.name + '"]');
+      if (el) el.textContent = "(" + (a.size / 1048576).toFixed(0) + " MB)";
+    });
+  })
+  .catch(function () {});
+</script>
+</body>
+</html>
