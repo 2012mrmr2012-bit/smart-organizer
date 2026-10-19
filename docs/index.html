@@ -5,102 +5,188 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>مرتّب الملفات - تحميل</title>
 <meta name="description" content="برنامج ويندوز بيقرا محتوى ملفاتك ويقترح ترتيبها وتسميتها. مجاني، بيشتغل على جهازك، ومبيحذفش أي ملف.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #ffffff; --alt: #f5f6f8; --text: #1b1f27; --muted: #5d6676;
-  --line: #dfe3ea; --accent: #0b63ce; --accent-text: #ffffff; --accent-hover: #0a54ad;
+  --bg:#f7f8fa; --surface:#fff; --text:#10202b; --muted:#566471; --line:#d9dfe5;
+  --accent:#0d6b66; --accent-hover:#0a5652; --accent-text:#fff; --soft:#e4f1f0;
+  --bad:#a3411f; --bad-soft:#f8ece6; --radius:10px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #14171c; --alt: #1b1f26; --text: #e6e9ef; --muted: #98a1b0;
-    --line: #2b313b; --accent: #4a9bff; --accent-text: #0b1220; --accent-hover: #6cb0ff;
+    --bg:#11171c; --surface:#192128; --text:#e8edf1; --muted:#9aa8b4; --line:#2a353e;
+    --accent:#3fb8af; --accent-hover:#6fd0c8; --accent-text:#08201e; --soft:#16302f;
+    --bad:#f0a07c; --bad-soft:#2c1f19;
   }
 }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0; background: var(--bg); color: var(--text); line-height: 1.8; font-size: 16px;
-  font-family: "Segoe UI", "Cairo", "Noto Sans Arabic", Tahoma, sans-serif;
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:72px; }
+body { margin:0; background:var(--bg); color:var(--text); line-height:1.8; font-size:17px;
+  font-family:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif; }
+a { color:var(--accent); }
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; border-radius:4px; }
+.skip { position:absolute; inset-inline-start:12px; top:-60px; background:var(--accent); color:var(--accent-text);
+  padding:8px 14px; border-radius:6px; z-index:20; }
+.skip:focus { top:10px; }
+.wrap { max-width:1040px; margin:0 auto; padding:0 20px; }
+
+header { position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); }
+header .wrap { display:flex; align-items:center; justify-content:space-between; height:64px; gap:16px; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:18px; color:var(--text); text-decoration:none; }
+.brand img { width:30px; height:30px; }
+nav { display:flex; align-items:center; gap:6px; }
+nav a { padding:6px 12px; color:var(--muted); text-decoration:none; font-size:15px; border-radius:6px; }
+nav a:hover { color:var(--text); background:var(--soft); }
+nav a.nav-cta { background:var(--accent); color:var(--accent-text); font-weight:600; margin-inline-start:6px; }
+nav a.nav-cta:hover { background:var(--accent-hover); color:var(--accent-text); }
+
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:48px; padding:10px 26px;
+  border-radius:8px; font:inherit; font-weight:600; text-decoration:none; cursor:pointer;
+  border:2px solid var(--accent); background:var(--accent); color:var(--accent-text); transition:background .15s; }
+.btn:hover { background:var(--accent-hover); border-color:var(--accent-hover); }
+.btn.secondary { background:transparent; color:var(--accent); }
+.btn.secondary:hover { background:var(--soft); }
+
+.hero { padding:56px 0 48px; display:grid; grid-template-columns:1fr 1.05fr; gap:48px; align-items:center; }
+.hero h1 { font-size:42px; line-height:1.4; margin:0 0 16px; font-weight:700; }
+.lead { font-size:19px; color:var(--muted); margin:0 0 28px; max-width:34em; }
+.btns { display:flex; flex-wrap:wrap; gap:12px; }
+.meta { margin-top:14px; font-size:14px; color:var(--muted); }
+.trust { list-style:none; margin:26px 0 0; padding:0; display:flex; flex-wrap:wrap; gap:8px 22px; font-size:15px; }
+.trust li::before { content:"✓"; color:var(--accent); font-weight:700; margin-inline-end:6px; }
+
+/* before/after demo */
+.demo { background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:0 12px 32px rgba(16,32,43,.10); }
+.demo-bar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--line); font-size:14px; color:var(--muted); }
+.demo-bar b { color:var(--text); }
+.row { display:grid; grid-template-columns:auto 1fr; gap:4px 12px; padding:14px 16px; border-bottom:1px solid var(--line); align-items:start; }
+.row:last-of-type { border-bottom:0; }
+.row .ck { width:18px; height:18px; margin-top:7px; border-radius:4px; background:var(--accent); position:relative; }
+.row .ck::after { content:""; position:absolute; inset:3px 5px 5px 5px; border:solid var(--accent-text); border-width:0 2px 2px 0; transform:rotate(45deg); }
+.row .ck.off { background:transparent; border:2px solid var(--line); }
+.row .ck.off::after { display:none; }
+.fn { direction:ltr; text-align:start; font-family:Consolas,"Courier New",monospace; font-size:14px; line-height:1.6; }
+.fn.old { color:var(--bad); text-decoration:line-through; text-decoration-thickness:1px; opacity:.85; }
+.fn.new { color:var(--text); font-weight:600; }
+.why { grid-column:2; font-size:13px; color:var(--muted); }
+.why span { display:inline-block; background:var(--soft); color:var(--accent); padding:0 8px; border-radius:20px; margin-inline-end:6px; font-size:12.5px; }
+.demo-foot { display:flex; justify-content:space-between; gap:10px; padding:12px 16px; background:var(--bg); border-top:1px solid var(--line); font-size:14px; }
+
+section { padding:64px 0; border-top:1px solid var(--line); }
+section.alt { background:var(--surface); }
+h2 { font-size:28px; margin:0 0 8px; line-height:1.4; }
+.sub { color:var(--muted); margin:0 0 30px; max-width:36em; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:28px 36px; }
+.grid h3 { margin:0 0 4px; font-size:18px; }
+.grid p { margin:0; color:var(--muted); font-size:16px; }
+.grid .main { grid-column:1/-1; padding-bottom:26px; border-bottom:1px solid var(--line); max-width:40em; }
+.grid .main h3 { font-size:22px; }
+
+.steps { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; counter-reset:s; }
+.steps li { counter-increment:s; padding-top:14px; border-top:3px solid var(--line); }
+.steps li::before { content:counter(s); display:block; font-weight:700; color:var(--accent); font-size:22px; line-height:1.2; margin-bottom:4px; }
+.steps li:last-child { border-top-color:var(--accent); }
+
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
+.card { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px; display:flex; flex-direction:column; gap:10px; }
+.card.rec { border:2px solid var(--accent); }
+.card h3 { margin:0; font-size:20px; }
+.tag { align-self:flex-start; background:var(--soft); color:var(--accent); font-size:13px; font-weight:600; padding:0 10px; border-radius:20px; }
+.card p { margin:0; color:var(--muted); font-size:15.5px; flex:1; }
+.card small { color:var(--muted); direction:ltr; text-align:start; font-family:Consolas,monospace; font-size:13px; }
+.card .btn { width:100%; }
+.warn { margin-top:24px; background:var(--surface); border:1px solid var(--line); border-inline-start:4px solid var(--accent); border-radius:var(--radius); padding:18px 20px; }
+.warn h3 { margin:0 0 6px; font-size:17px; }
+.warn ol { margin:0; padding-inline-start:22px; color:var(--muted); font-size:15.5px; }
+.warn p { margin:8px 0 0; font-size:14.5px; color:var(--muted); }
+
+details { border-bottom:1px solid var(--line); }
+summary { cursor:pointer; font-weight:600; padding:16px 0; list-style:none; display:flex; justify-content:space-between; gap:12px; }
+summary::-webkit-details-marker { display:none; }
+summary::after { content:"+"; color:var(--accent); font-size:22px; line-height:1.4; }
+details[open] summary::after { content:"−"; }
+details p { margin:0 0 16px; color:var(--muted); max-width:40em; }
+
+.shot { margin:0; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--surface); }
+.shot img { display:block; width:100%; height:auto; }
+footer { border-top:1px solid var(--line); padding:28px 0; color:var(--muted); font-size:14.5px; }
+footer .wrap { display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between; }
+
+@media (max-width:860px) {
+  .hero { grid-template-columns:1fr; gap:36px; padding-top:36px; }
+  .hero h1 { font-size:32px; }
 }
-a { color: var(--accent); }
-.wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
-header { border-bottom: 1px solid var(--line); }
-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); text-decoration: none; }
-.brand img { width: 28px; height: 28px; }
-nav a { margin-inline-start: 22px; color: var(--muted); text-decoration: none; font-size: 15px; }
-nav a:hover { color: var(--text); }
-.hero { padding: 64px 0 40px; }
-.hero h1 { font-size: 38px; line-height: 1.35; margin: 0 0 14px; max-width: 640px; }
-.hero p.lead { font-size: 18px; color: var(--muted); max-width: 620px; margin: 0 0 28px; }
-.btns { display: flex; flex-wrap: wrap; gap: 12px; }
-.btn {
-  display: inline-block; padding: 12px 24px; border-radius: 6px; font-weight: 600; text-decoration: none;
-  border: 1px solid var(--accent); background: var(--accent); color: var(--accent-text); font-size: 16px;
+@media (max-width:600px) {
+  body { font-size:16px; }
+  nav a:not(.nav-cta) { display:none; }
+  section { padding:48px 0; }
+  .btns .btn { width:100%; }
 }
-.btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
-.btn.secondary { background: transparent; color: var(--accent); }
-.btn.secondary:hover { background: var(--alt); }
-.meta { margin-top: 14px; font-size: 14px; color: var(--muted); }
-.shot { margin: 40px 0 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--alt); }
-.shot img { display: block; width: 100%; height: auto; }
-section { padding: 52px 0; border-top: 1px solid var(--line); }
-section.alt { background: var(--alt); }
-h2 { font-size: 26px; margin: 0 0 22px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 26px 32px; }
-.grid h3 { margin: 0 0 4px; font-size: 17px; }
-.grid p { margin: 0; color: var(--muted); font-size: 15px; }
-ol.steps { margin: 0; padding-inline-start: 22px; }
-ol.steps li { margin-bottom: 10px; }
-table { width: 100%; border-collapse: collapse; background: var(--bg); border: 1px solid var(--line); }
-th, td { text-align: start; padding: 14px 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-th { background: var(--alt); font-size: 14px; color: var(--muted); }
-tr:last-child td { border-bottom: none; }
-td small { color: var(--muted); display: block; }
-.note { margin-top: 16px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; color: var(--muted); background: var(--bg); }
-details { border-bottom: 1px solid var(--line); padding: 14px 0; }
-summary { cursor: pointer; font-weight: 600; }
-details p { margin: 10px 0 0; color: var(--muted); }
-footer { border-top: 1px solid var(--line); padding: 26px 0; color: var(--muted); font-size: 14px; }
-footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
-@media (max-width: 600px) {
-  .hero h1 { font-size: 28px; }
-  nav a { margin-inline-start: 14px; }
-  th:nth-child(2), td:nth-child(2) { display: none; }
-}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .btn { transition:none; } }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">تخطّى للمحتوى</a>
 
 <header>
   <div class="wrap">
     <a class="brand" href="#"><img src="icon.png" alt="" onerror="this.style.display='none'"><span>مرتّب الملفات</span></a>
-    <nav>
+    <nav aria-label="التنقل الرئيسي">
       <a href="#features">المميزات</a>
-      <a href="#download">التحميل</a>
+      <a href="#how">الاستخدام</a>
       <a href="#faq">أسئلة</a>
       <a data-repo-link href="#">GitHub</a>
+      <a class="nav-cta" href="#download">تحميل</a>
     </nav>
   </div>
 </header>
 
-<main>
+<main id="main">
   <div class="wrap hero">
-    <h1>رتّب ملفاتك حسب محتواها، مش حسب امتدادها</h1>
-    <p class="lead">برنامج لويندوز بيقرا الفواتير والعقود والمستندات، ويقترح اسم واضح ومكان مناسب لكل ملف. بتراجع الاقتراحات الأول، وبعدين تنفّذ. وأي عملية تقدر ترجع عنها.</p>
-    <div class="btns">
-      <a class="btn" data-asset="SmartOrganizer_Setup.exe" href="#download">تحميل المثبّت (Setup)</a>
-      <a class="btn secondary" data-asset="SmartOrganizer_Portable.zip" href="#download">تحميل النسخة المحمولة</a>
+    <div>
+      <h1>رتّب ملفاتك حسب محتواها، مش حسب امتدادها</h1>
+      <p class="lead">البرنامج بيقرا الفواتير والعقود والمستندات، ويقترح اسم واضح ومكان مناسب لكل ملف. بتراجع الاقتراحات الأول، وبعدين تنفّذ. وأي عملية تقدر ترجع عنها.</p>
+      <div class="btns">
+        <a class="btn" data-asset="SmartOrganizer_Setup.exe" href="#download">تحميل المثبّت (Setup)</a>
+        <a class="btn secondary" data-asset="SmartOrganizer_Portable.zip" href="#download">النسخة المحمولة</a>
+      </div>
+      <div class="meta">لويندوز 10 و11 · <span id="ver">أحدث إصدار</span></div>
+      <ul class="trust">
+        <li>مجاني</li>
+        <li>بيشتغل على جهازك</li>
+        <li>مبيحذفش أي ملف</li>
+      </ul>
     </div>
-    <div class="meta">ويندوز 10 و11 &nbsp;·&nbsp; مجاني &nbsp;·&nbsp; <span id="ver">أحدث إصدار</span></div>
-    <div class="shot"><img src="screenshot.png" alt="لقطة من البرنامج" onerror="this.parentNode.style.display='none'"></div>
+
+    <div class="demo" role="img" aria-label="مثال على اقتراحات البرنامج: أسماء ملفات عشوائية بتتحول لأسماء واضحة في فولدرات مناسبة">
+      <div class="demo-bar"><b>الاقتراحات</b><span>3 ملفات</span></div>
+      <div class="row">
+        <span class="ck"></span>
+        <div><div class="fn old">scan0042.pdf</div><div class="fn new">Invoice_Vodafone_2025-03.pdf</div></div>
+        <div class="why"><span>فاتورة</span>الفواتير / 2025</div>
+      </div>
+      <div class="row">
+        <span class="ck"></span>
+        <div><div class="fn old">New Document (3).docx</div><div class="fn new">Rental_Contract_Nasr_City.docx</div></div>
+        <div class="why"><span>عقد</span>العقود / إيجار</div>
+      </div>
+      <div class="row">
+        <span class="ck off"></span>
+        <div><div class="fn old">final_FINAL2.pdf</div><div class="fn new">CV_Ahmed_Hassan.pdf</div></div>
+        <div class="why"><span>سيرة ذاتية</span>مستثنى من التنفيذ</div>
+      </div>
+      <div class="demo-foot"><span>تنفيذ الترتيب (2)</span><span style="color:var(--muted)">تراجع متاح بعد التنفيذ</span></div>
+    </div>
   </div>
 
-  <section id="features">
+  <section id="features" class="alt">
     <div class="wrap">
-      <h2>المميزات</h2>
+      <h2>بيرتّب إزاي وبيحمي ملفاتك إزاي</h2>
+      <p class="sub">كل خطوة بتشوفها قبل ما تحصل.</p>
       <div class="grid">
-        <div><h3>بيفهم المحتوى</h3><p>بيقرا ملفات PDF وWord والنصوص، ويفرّق بين فاتورة وعقد وسيرة ذاتية وشهادة وملف دراسة، بالعربي والإنجليزي.</p></div>
+        <div class="main"><h3>بيفهم المحتوى</h3><p>بيقرا ملفات PDF وWord والنصوص، ويفرّق بين فاتورة وعقد وسيرة ذاتية وشهادة وملف دراسة، بالعربي والإنجليزي.</p></div>
         <div><h3>معاينة قبل التنفيذ</h3><p>كل اقتراح بيظهر في جدول فيه الاسم الجديد والمكان والسبب. تقدر تستثني أي ملف قبل ما ينقل حاجة.</p></div>
         <div><h3>تراجع في أي وقت</h3><p>كل عملية بتتسجل، وبضغطة واحدة ترجّع الملفات لأماكنها الأصلية.</p></div>
         <div><h3>آمن على ملفاتك</h3><p>مبيحذفش ولا يكتب فوق أي ملف. بس بينقل ويعيد التسمية.</p></div>
@@ -110,41 +196,51 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: s
     </div>
   </section>
 
-  <section class="alt">
+  <section id="how">
     <div class="wrap">
       <h2>طريقة الاستخدام</h2>
+      <p class="sub">أربع خطوات، ومفيش حاجة بتتنقل غير لما تأكّد.</p>
       <ol class="steps">
         <li>اختار فولدر (مثلاً Downloads) أو اسحبه على نافذة البرنامج.</li>
         <li>اضغط «فحص» وراجع الاقتراحات في الجدول.</li>
         <li>شيل العلامة من أي ملف مش عايز تنقله.</li>
         <li>اضغط «تنفيذ الترتيب». ولو مش عاجبك النتيجة: «تراجع».</li>
       </ol>
+      <figure class="shot" style="margin-top:40px"><img src="screenshot.png" alt="لقطة من البرنامج" onerror="this.parentNode.style.display='none'"></figure>
     </div>
   </section>
 
-  <section id="download">
+  <section id="download" class="alt">
     <div class="wrap">
       <h2>التحميل</h2>
-      <table>
-        <thead><tr><th>الملف</th><th>الوصف</th><th></th></tr></thead>
-        <tbody>
-          <tr>
-            <td><strong>المثبّت</strong><small>SmartOrganizer_Setup.exe <span data-size="SmartOrganizer_Setup.exe"></span></small></td>
-            <td>تثبيت عادي مع اختصار على سطح المكتب وأمر إزالة.</td>
-            <td><a class="btn" data-asset="SmartOrganizer_Setup.exe" href="#">تحميل</a></td>
-          </tr>
-          <tr>
-            <td><strong>نسخة محمولة</strong><small>SmartOrganizer_Portable.zip <span data-size="SmartOrganizer_Portable.zip"></span></small></td>
-            <td>فك الضغط وشغّل SmartOrganizer.exe. الإعدادات بتتحفظ جنب البرنامج.</td>
-            <td><a class="btn secondary" data-asset="SmartOrganizer_Portable.zip" href="#">تحميل</a></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="note">لما تشغّل البرنامج أول مرة، ممكن ويندوز يعرض تحذير SmartScreen لأن البرنامج مش موقّع رقميًا. اضغط <strong>More info</strong> ثم <strong>Run anyway</strong>. الكود مفتوح المصدر وتقدر تراجعه على GitHub.</div>
+      <p class="sub">ويندوز 10 و11. مجاني.</p>
+      <div class="cards">
+        <div class="card rec">
+          <span class="tag">الأنسب لمعظم الناس</span>
+          <h3>المثبّت</h3>
+          <p>تثبيت عادي مع اختصار على سطح المكتب وأمر إزالة.</p>
+          <small>SmartOrganizer_Setup.exe <span data-size="SmartOrganizer_Setup.exe"></span></small>
+          <a class="btn" data-asset="SmartOrganizer_Setup.exe" href="#">تحميل المثبّت</a>
+        </div>
+        <div class="card">
+          <h3>نسخة محمولة</h3>
+          <p>فك الضغط وشغّل SmartOrganizer.exe. الإعدادات بتتحفظ جنب البرنامج.</p>
+          <small>SmartOrganizer_Portable.zip <span data-size="SmartOrganizer_Portable.zip"></span></small>
+          <a class="btn secondary" data-asset="SmartOrganizer_Portable.zip" href="#">تحميل النسخة المحمولة</a>
+        </div>
+      </div>
+      <div class="warn">
+        <h3>لو ظهر تحذير ويندوز أول مرة</h3>
+        <ol>
+          <li>اضغط <strong>More info</strong>.</li>
+          <li>اضغط <strong>Run anyway</strong>.</li>
+        </ol>
+        <p>التحذير بيظهر لأن البرنامج مش موقّع رقميًا. الكود مفتوح المصدر وتقدر تراجعه على <a data-repo-link href="#">GitHub</a>.</p>
+      </div>
     </div>
   </section>
 
-  <section id="faq" class="alt">
+  <section id="faq">
     <div class="wrap">
       <h2>أسئلة شائعة</h2>
       <details><summary>هل البرنامج بيحذف ملفات؟</summary><p>لأ. البرنامج بينقل الملفات ويغيّر أسماءها بس، ومبيحذفش ولا يكتب فوق أي ملف. وكل عملية متسجلة وتقدر تتراجع عنها.</p></details>
@@ -159,7 +255,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: s
 <footer>
   <div class="wrap">
     <span>مرتّب الملفات</span>
-    <span><a data-repo-link href="#">الكود على GitHub</a> &nbsp;·&nbsp; <a data-repo-link data-path="/issues" href="#">الإبلاغ عن مشكلة</a></span>
+    <span><a data-repo-link href="#">الكود على GitHub</a> · <a data-repo-link data-path="/issues" href="#">الإبلاغ عن مشكلة</a></span>
   </div>
 </footer>
 
