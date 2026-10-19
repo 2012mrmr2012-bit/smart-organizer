@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+build/
+dist/
+installer_output/
+*.spec
+app.ico
+settings.ini
+.organizer_log.json
