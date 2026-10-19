@@ -3,12 +3,12 @@
 برنامج ويندوز بيقرا **محتوى** ملفاتك ويقترح ترتيبها وتسميتها، بدل ما يرتب بالامتداد بس.
 كل حاجة بتتم على جهازك، ومفيش ملف بيتحذف أو يتكتب فوقه، وأي عملية تقدر ترجع عنها.
 
-[![Release](https://img.shields.io/github/v/release/YOUR_USERNAME/smart-organizer)](https://github.com/YOUR_USERNAME/smart-organizer/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/YOUR_USERNAME/smart-organizer/total)](https://github.com/YOUR_USERNAME/smart-organizer/releases)
+[![Release](https://img.shields.io/github/v/release/2012mrmr2012-bit/smart-organizer)](https://github.com/2012mrmr2012-bit/smart-organizer/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/2012mrmr2012-bit/smart-organizer/total)](https://github.com/2012mrmr2012-bit/smart-organizer/releases)
 
 ## التحميل
 
-من صفحة [Releases](https://github.com/YOUR_USERNAME/smart-organizer/releases/latest):
+من صفحة [Releases](https://github.com/2012mrmr2012-bit/smart-organizer/releases/latest):
 
 | الملف | الوصف |
 |---|---|
